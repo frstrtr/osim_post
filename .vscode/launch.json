@@ -20,7 +20,7 @@
             "request": "launch",
             "program": "${file}",
             "console": "integratedTerminal",
-            "args": ["./junk/scripts_clean copy/", "Ivanov"]
+            "args": ["./trials/", "Ivanov"]
         },
         {
             "type": "R-Debugger",
