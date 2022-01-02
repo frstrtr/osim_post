@@ -76,6 +76,7 @@ for value in jumps.values():
 	analyze_config = path+athlete+DATA_DIR+experiment+'_4_analyze_config.xml'
 
 	model_file = 'gait_with_arms.osim'
+	model_file_path = './models/'
 	model_target_file = path+athlete+DATA_DIR+experiment+'_'+model_file
 	model_file_scaled = 'gait_with_arms_scaled.osim'
 
@@ -89,7 +90,7 @@ for value in jumps.values():
 	with open(data_source, 'r') as infile, open(data_target, 'w') as outfile, open(antropometry, 'r') as antropometry_file, open(scale_config_template, 'r') as scale_config_template_file, open(ik_config_template, 'r') as ik_config_template_file, open(analyze_config_template, 'r') as analyze_config_template_file, open(id_config_template, 'r') as id_config_template_file, open(analyze_config, 'w') as analyze_config_file, open(scale_config, 'w') as scale_config_file, open(ik_config, 'w') as ik_config_file, open(id_config, 'w') as id_config_file, open(left_force_source, 'r') as left_force_infile,  open(right_force_source, 'r') as right_force_infile, open(forces_target, 'w') as forces_outfile, open(external_forces_template, 'r') as external_forces_template_file, open(external_forces, 'w') as external_forces_file:
 		
 		# copying the source model (.osim file)
-		shutil.copy(model_file, model_target_file)
+		shutil.copy(model_file_path+model_file, model_target_file)
 		
 		# generating .xml configs
 		SEX = ''
