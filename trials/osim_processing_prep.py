@@ -261,7 +261,7 @@ for value in jumps.values():
 					print("FORCE_EXTRA_COLUMNS_TO_BE_REMOVED:")
 					print(FORCE_EXTRA_COLUMNS_TO_BE_REMOVED)
 					
-				if i >= 25:
+				if i >= 28:
 					VALUES = ["{0:.4f}".format(1.00/float(FORCE_FREQUENCY)*(i-25.00))]
 					
 					#calibrating ground forces
@@ -345,8 +345,8 @@ for value in jumps.values():
 		batch_file.write("analyze -S "+experiment+"_4_analyze_config.xml\n")
 		#batch_file.write("pause\n")
 		
-	os.startfile(batch_target)
-	print("create bat.")
+	# os.startfile(batch_target)
+	# print("create bat.")
 	#input("Press Enter to continue...")
 	
 	'''
