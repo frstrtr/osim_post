@@ -5,6 +5,10 @@ import sys
 import os
 from os import walk
 
+MODEL_FILE = "<model_file>"
+SLASH_MODEL_FILE = "</model_file>"
+XML_MODEL_FILE = "<model_file>gait_with_arms_scaled.osim</model_file>"
+
 #athlete = '000_test'
 #experiment = 'jump_jo 1'
 #athlete = '001_lomakina'
@@ -69,10 +73,11 @@ for value in jumps.values():
 	external_forces_template = 'templates/external_forces_template.xml'
 	analyze_config_template = 'templates/4_analyze_config_template.xml'
 	
+	EXTERNAL_FORCES_XML = '_external_forces.xml'
 	scale_config = path+athlete+DATA_DIR+experiment+'_1_scale_config.xml'
 	ik_config = path+athlete+DATA_DIR+experiment+'_2_ik_config.xml'
 	id_config = path+athlete+DATA_DIR+experiment+'_3_id_config.xml'
-	external_forces = path+athlete+DATA_DIR+experiment+'_external_forces.xml'
+	external_forces = path+athlete+DATA_DIR+experiment+EXTERNAL_FORCES_XML
 	analyze_config = path+athlete+DATA_DIR+experiment+'_4_analyze_config.xml'
 
 	model_file = 'gait_with_arms.osim'
@@ -85,7 +90,7 @@ for value in jumps.values():
 	forces_target = path+athlete+DATA_DIR+experiment+'_ext_forces.mot'
 
 	#batch_target = 'data/'+athlete+'/run_opensim.bat'
-	batch_target = path+athlete+DATA_DIR+experiment+'_run_opensim.bat'
+	BATCH_TARGET = path+athlete+DATA_DIR+experiment+'_run_opensim.log'
 	
 	with open(data_source, 'r') as infile, open(data_target, 'w') as outfile, open(antropometry, 'r') as antropometry_file, open(scale_config_template, 'r') as scale_config_template_file, open(ik_config_template, 'r') as ik_config_template_file, open(analyze_config_template, 'r') as analyze_config_template_file, open(id_config_template, 'r') as id_config_template_file, open(analyze_config, 'w') as analyze_config_file, open(scale_config, 'w') as scale_config_file, open(ik_config, 'w') as ik_config_file, open(id_config, 'w') as id_config_file, open(left_force_source, 'r') as left_force_infile,  open(right_force_source, 'r') as right_force_infile, open(forces_target, 'w') as forces_outfile, open(external_forces_template, 'r') as external_forces_template_file, open(external_forces, 'w') as external_forces_file:
 		
@@ -314,15 +319,15 @@ for value in jumps.values():
 				break
 
 		template = scale_config_template_file.read()
-		content = template.replace("<mass></mass>","<mass>"+WEIGHT+"</mass>").replace("<marker_file></marker_file>", "<marker_file>"+experiment+'.trc'+"</marker_file>").replace("<model_file>gait_with_arms.osim</model_file>","<model_file>"+experiment+'_'+model_file+"</model_file>").replace("<output_model_file>gait_with_arms_scaled.osim</output_model_file>","<output_model_file>"+experiment+'_'+model_file_scaled+"</output_model_file>")
+		content = template.replace("<mass></mass>","<mass>"+WEIGHT+"</mass>").replace("<marker_file></marker_file>", "<marker_file>"+experiment+'.trc'+"</marker_file>").replace("<model_file>gait_with_arms.osim</model_file>",MODEL_FILE+experiment+'_'+model_file+SLASH_MODEL_FILE).replace("<output_model_file>gait_with_arms_scaled.osim</output_model_file>","<output_model_file>"+experiment+'_'+model_file_scaled+"</output_model_file>")
 		scale_config_file.write(content)
 		
 		template = ik_config_template_file.read()
-		content = template.replace("<marker_file></marker_file>", "<marker_file>"+experiment+'.trc'+"</marker_file>").replace("<output_motion_file></output_motion_file>", "<output_motion_file>"+experiment+'.mot'+"</output_motion_file>").replace("STOP_TIME", STOP_TIME).replace("<model_file>gait_with_arms_scaled.osim</model_file>","<model_file>"+experiment+'_'+model_file_scaled+"</model_file>")
+		content = template.replace("<marker_file></marker_file>", "<marker_file>"+experiment+'.trc'+"</marker_file>").replace("<output_motion_file></output_motion_file>", "<output_motion_file>"+experiment+'.mot'+"</output_motion_file>").replace("STOP_TIME", STOP_TIME).replace(XML_MODEL_FILE,MODEL_FILE+experiment+'_'+model_file_scaled+SLASH_MODEL_FILE)
 		ik_config_file.write(content)
 		
 		template =id_config_template_file.read()
-		content = template.replace("<coordinates_file></coordinates_file>","<coordinates_file>"+experiment+'.mot'+"</coordinates_file>").replace("<output_gen_force_file></output_gen_force_file>","<output_gen_force_file>"+experiment+'_inverse_dynamics.sto'+"</output_gen_force_file>").replace("<output_body_forces_file></output_body_forces_file>","<output_body_forces_file>"+experiment+'_body_forces_at_joints.sto'+"</output_body_forces_file>").replace("STOP_TIME", STOP_TIME).replace("<model_file>gait_with_arms_scaled.osim</model_file>","<model_file>"+experiment+'_'+model_file_scaled+"</model_file>").replace("<external_loads_file>external_forces.xml</external_loads_file>", "<external_loads_file>"+experiment+'_external_forces.xml'+"</external_loads_file>")
+		content = template.replace("<coordinates_file></coordinates_file>","<coordinates_file>"+experiment+'.mot'+"</coordinates_file>").replace("<output_gen_force_file></output_gen_force_file>","<output_gen_force_file>"+experiment+'_inverse_dynamics.sto'+"</output_gen_force_file>").replace("<output_body_forces_file></output_body_forces_file>","<output_body_forces_file>"+experiment+'_body_forces_at_joints.sto'+"</output_body_forces_file>").replace("STOP_TIME", STOP_TIME).replace(XML_MODEL_FILE,MODEL_FILE+experiment+'_'+model_file_scaled+SLASH_MODEL_FILE).replace("<external_loads_file>external_forces.xml</external_loads_file>", "<external_loads_file>"+experiment+EXTERNAL_FORCES_XML+"</external_loads_file>")
 		id_config_file.write(content)
 
 		template =external_forces_template_file.read()
@@ -330,14 +335,14 @@ for value in jumps.values():
 		external_forces_file.write(content)
 			
 		template =analyze_config_template_file.read()
-		content = template.replace("<coordinates_file></coordinates_file>","<coordinates_file>"+experiment+'.mot'+"</coordinates_file>").replace("STOP_TIME", STOP_TIME).replace("<model_file>gait_with_arms_scaled.osim</model_file>","<model_file>"+experiment+'_'+model_file_scaled+"</model_file>").replace("<external_loads_file>external_forces.xml</external_loads_file>", "<external_loads_file>"+experiment+'_external_forces.xml'+"</external_loads_file>").replace("<AnalyzeTool name=\"gait_reduced_nonscaled-scaled\">","<AnalyzeTool name=\""+experiment+"_model\">")
+		content = template.replace("<coordinates_file></coordinates_file>","<coordinates_file>"+experiment+'.mot'+"</coordinates_file>").replace("STOP_TIME", STOP_TIME).replace(XML_MODEL_FILE,MODEL_FILE+experiment+'_'+model_file_scaled+SLASH_MODEL_FILE).replace("<external_loads_file>external_forces.xml</external_loads_file>", "<external_loads_file>"+experiment+EXTERNAL_FORCES_XML+"</external_loads_file>").replace("<AnalyzeTool name=\"gait_reduced_nonscaled-scaled\">","<AnalyzeTool name=\""+experiment+"_model\">")
 		analyze_config_file.write(content)
 
 	print(" ")
 	print("complete preprocessing.")
 
 
-	with open(batch_target, 'w') as batch_file:
+	with open(BATCH_TARGET, 'w') as batch_file:
 		batch_file.write("cd data\\"+athlete+"\n")
 		batch_file.write("scale -S "+experiment+"_1_scale_config.xml\n")
 		batch_file.write("ik -S "+experiment+"_2_ik_config.xml\n")
@@ -363,9 +368,8 @@ for value in jumps.values():
 	'''
 	print("complete bat.")
 
-import shutil
 print("copy osim file.")
-shutil.copyfile('osim_post_processing.r', athlete+DATA_DIR+'\\osim_post_processing.r')
+shutil.copyfile('./scripts/osim_post_processing.r', './trials/'+athlete+DATA_DIR+'osim_post_processing.r')
 
 input("Press Enter to continue...")
 	
@@ -373,6 +377,6 @@ with open(batch_final, 'w') as batch_file:
 	batch_file.write("Rscript.exe osim_post_processing.r " + path + " " + athlete + "\n")
 	batch_file.write("pause\n")
 	
-os.startfile(batch_final)	
+# os.startfile(batch_final)	
 print("executing batchfile")
 #os.system("cmd /k " + batch_target)
