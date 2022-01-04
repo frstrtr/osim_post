@@ -46,7 +46,8 @@ for (jump in jump_list)
   model_xml_file = paste(path,'/data/',athlete,'/', experiment, '_gait_with_arms_scaled.osim',sep='')
   #------------------------------------------------------------------#
   logdebug('loading antropometry...');
-  antropometry = scan(file = paste(path,'/data/',athlete,'/antrop.txt',sep=''), what = character())
+  # antropometry = scan(file = paste(path,'/data/',athlete,'/antrop.txt',sep=''), what = character())
+  antropometry = scan(file = paste('antrop.txt',sep=''), what = character())
   sex <- antropometry[2]
   weight <- as.numeric(antropometry[4])
   height <- as.numeric(antropometry[6])

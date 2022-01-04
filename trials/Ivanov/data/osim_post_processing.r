@@ -19,20 +19,22 @@ model_xml_file = paste(path,'/data/',athlete,'/gait_with_arms_scaled.osim',sep='
 
 #------------------------------------------------------------------#
 logdebug('loading antropometry...');
-antropometry = scan(file = paste(path,'/data/antrop.txt',sep=''), what = character())
+# antropometry = scan(file = paste(path,'/data/antrop.txt',sep=''), what = character())
+antropometry = scan(file = paste('antrop.txt',sep=''), what = character())
+
 sex <- antropometry[2]
 weight <- as.numeric(antropometry[4])
 height <- as.numeric(antropometry[6])
 
 #------------------------------------------------------------------#
 logdebug('loading source data files (pos, vel, acc, body_forces, inverse_dynamics, mot)...');
-pos_source <- read.table(paste(path,'/data/',athlete,'/gait_reduced_nonscaled-scaled_BodyKinematics_pos_global.sto',sep=''), skip=18, header = TRUE)
-vel_source <- read.table(paste(path,'/data/',athlete,'/gait_reduced_nonscaled-scaled_BodyKinematics_vel_global.sto',sep=''), skip=18, header = TRUE)
-acc_source <- read.table(paste(path,'/data/',athlete,'/gait_reduced_nonscaled-scaled_BodyKinematics_acc_global.sto',sep=''), skip=18, header = TRUE)
-body_forces_source <- read.table(paste(path,'/data/',experiment,'/jump_jo_3_body_forces_at_joints.sto',sep=''), skip=6, header = TRUE)
-inverse_dynamics_source <- read.table(paste(path,'/data/', experiment,'/jump_jo_3_inverse_dynamics.sto',sep=''), skip=6, header = TRUE)
-mot_source <- read.table(paste(path,'/data/', experiment,'/jump_jo_3.mot',sep=''), skip=10, header = TRUE)
-ext_forces_source <- read.table(paste(path,'/data/',experiment,'/jump_jo_3_ext_forces.mot',sep=''), skip=10, header = TRUE)
+pos_source <- read.table(paste('jump_js_1_model_BodyKinematics_pos_global.sto',sep=''), skip=18, header = TRUE)
+vel_source <- read.table(paste('jump_js_1_model_BodyKinematics_vel_global.sto',sep=''), skip=18, header = TRUE)
+acc_source <- read.table(paste('jump_js_1_model_BodyKinematics_acc_global.sto',sep=''), skip=18, header = TRUE)
+body_forces_source <- read.table(paste('jump_js_1_body_forces_at_joints.sto',sep=''), skip=6, header = TRUE)
+inverse_dynamics_source <- read.table(paste('jump_js_1_inverse_dynamics.sto',sep=''), skip=6, header = TRUE)
+mot_source <- read.table(paste('jump_js_1.mot',sep=''), skip=10, header = TRUE)
+ext_forces_source <- read.table(paste('jump_js_1_ext_forces.mot',sep=''), skip=10, header = TRUE)
 frames <- length(mot_source$time)
 logdebug(paste('loaded', frames, 'frames'))
 
