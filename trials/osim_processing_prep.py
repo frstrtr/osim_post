@@ -8,6 +8,7 @@ from os import walk
 MODEL_FILE = "<model_file>"
 SLASH_MODEL_FILE = "</model_file>"
 XML_MODEL_FILE = "<model_file>gait_with_arms_scaled.osim</model_file>"
+OPENSIM_RUN = "opensim-cmd run-tool "
 
 #athlete = '000_test'
 #experiment = 'jump_jo 1'
@@ -220,7 +221,7 @@ for value in jumps.values():
 		
 		
 		
-		
+		# Compiling forse data from .tsv files
 		while True:
 			try:
 				row = next(force_left_reader)
@@ -252,7 +253,9 @@ for value in jumps.values():
 					force_writer.writerow([])
 					force_writer.writerow(['endheader'])
 					
-					force_writer.writerow(['time','ground_force_vx','ground_force_vy','ground_force_vz','ground_force_px','ground_force_py','ground_force_pz','1_ground_force_vx','1_ground_force_vy','1_ground_force_vz','1_ground_force_px','1_ground_force_py','1_ground_force_pz','ground_torque_x','ground_torque_y','ground_torque_z','1_ground_torque_x','1_ground_torque_y','1_ground_torque_z'])
+					#TODO: check for 1 or l symbols!!!
+					# force_writer.writerow(['time','ground_force_vx','ground_force_vy','ground_force_vz','ground_force_px','ground_force_py','ground_force_pz','1_ground_force_vx','1_ground_force_vy','1_ground_force_vz','1_ground_force_px','1_ground_force_py','1_ground_force_pz','ground_torque_x','ground_torque_y','ground_torque_z','1_ground_torque_x','1_ground_torque_y','1_ground_torque_z'])
+					force_writer.writerow(['time','1_Force_X','1_Force_Y','1_Force_Z','1_Moment_X','1_Moment_Y','1_Moment_Z','1_COP_X','1_COP_Y','1_COP_Z','2_Force_X','2_Force_Y','2_Force_Z','2_Moment_X','2_Moment_Y','2_Moment_Z','2_COP_X','2_COP_Y','2_COP_Z'])
 					
 					if row[0] == "SAMPLE":
 						FORCE_EXTRA_COLUMNS_TO_BE_REMOVED = FORCE_EXTRA_COLUMNS_TO_BE_REMOVED + 1
@@ -343,11 +346,21 @@ for value in jumps.values():
 
 
 	with open(BATCH_TARGET, 'w') as batch_file:
-		batch_file.write("cd data\\"+athlete+"\n")
-		batch_file.write("scale -S "+experiment+"_1_scale_config.xml\n")
-		batch_file.write("ik -S "+experiment+"_2_ik_config.xml\n")
-		batch_file.write("id -S "+experiment+"_3_id_config.xml\n")
-		batch_file.write("analyze -S "+experiment+"_4_analyze_config.xml\n")
+		batch_file.write("cd trials/"+athlete+"/data/"+"\n")
+		batch_file.write(OPENSIM_RUN+experiment+"_1_scale_config.xml\n")
+		batch_file.write(OPENSIM_RUN+experiment+"_2_ik_config.xml\n")
+
+		batch_file.write(OPENSIM_RUN+experiment+"_3_id_config.xml\n")
+		# TODO: ID FAILED!!!
+		# [info] ExternalLoads 'Ex2' was renamed and is being reset to 'externalloads'.
+		# [info] Storage: read data file = jump_js_1_ext_forces.mot (nr=364 nc=19)
+		# [info] ExternalForce::left Data source being set to Coordinates
+		# [info] ExternalForce::right Data source being set to Coordinates
+		# [warning] Storage Coordinates could not locate data for identifier 1_Force_.
+		# [error] InverseDynamicsTool Failed: ExternalForce: 3 unique force components could not be found, for force identifier: 1_Force_
+		# . Please make sure data file contains exactly 3 unique columns with this common prefix.
+		
+		batch_file.write(OPENSIM_RUN+experiment+"_4_analyze_config.xml\n")
 		#batch_file.write("pause\n")
 		
 	# os.startfile(batch_target)

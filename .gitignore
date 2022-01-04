@@ -1,3 +1,5 @@
 *.trc
 *.log
 trials/Ivanov/data/jump_js_1_run_opensim.bat
+*.mot
+*.sto

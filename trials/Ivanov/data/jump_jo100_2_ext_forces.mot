@@ -8,7 +8,7 @@ Units are S.I. units (second, meters, Newtons, ...)
 Angles are in degrees.
 
 endheader
-time	ground_force_vx	ground_force_vy	ground_force_vz	ground_force_px	ground_force_py	ground_force_pz	1_ground_force_vx	1_ground_force_vy	1_ground_force_vz	1_ground_force_px	1_ground_force_py	1_ground_force_pz	ground_torque_x	ground_torque_y	ground_torque_z	1_ground_torque_x	1_ground_torque_y	1_ground_torque_z
+time	1_Force_X	1_Force_Y	1_Force_Z	1_Moment_X	1_Moment_Y	1_Moment_Z	1_COP_X	1_COP_Y	1_COP_Z	2_Force_X	2_Force_Y	2_Force_Z	2_Moment_X	2_Moment_Y	2_Moment_Z	2_COP_X	2_COP_Y	2_COP_Z
 0.0075	13.809	-1.436	-4.565	-0.237	0.000	0.403	-3.774	3.605	-2.715	-0.215	0.000	0.248	0.00000	5.43265	0.00000	0.00000	7.40736	0.00000
 0.0100	13.893	-0.047	-4.479	-0.213	0.000	0.363	-3.906	2.918	-2.717	-0.212	0.000	0.249	0.00000	239.11720	0.00000	0.00000	8.60857	0.00000
 0.0125	13.987	-0.914	-4.258	-0.234	0.000	0.393	-3.821	3.777	-2.364	-0.214	0.000	0.249	0.00000	10.11843	0.00000	0.00000	7.91548	0.00000
