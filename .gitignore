@@ -3,3 +3,11 @@
 trials/Ivanov/data/jump_js_1_run_opensim.bat
 *.mot
 *.sto
+trials/Ivanov/data/_normalized_1_pos.csv
+trials/Ivanov/data/_normalized_2_vel.csv
+trials/Ivanov/data/_normalized_3_acc.csv
+trials/Ivanov/data/_normalized_4_body_forces.csv
+trials/Ivanov/data/_normalized_5_inverse_dynamics.csv
+trials/Ivanov/data/_normalized_6_mot.csv
+trials/Ivanov/data/_normalized_7_ext_forces.csv
+trials/Ivanov/data/_plot_1_center_of_mass_delta_raw.png
