@@ -227,7 +227,7 @@ phase_split = round((lowest_frame - movement_frame) / (eject_frame - movement_fr
 
 
 # Жесткость
-
+print (phase_split)
 amort_com_max = max(pos_smoothed$center_of_mass_Y[seq(1, phase_split)])
 amort_com_min = min(pos_smoothed$center_of_mass_Y[seq(1, phase_split)])
 
