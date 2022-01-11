@@ -15,7 +15,7 @@
             "args": []
         }, 
         {
-            "name": "Python: Current File with Ivanov & jump_js args",
+            "name": "Python: Current File with Ivanov & /trials/ args",
             "type": "python",
             "request": "launch",
             "program": "${file}",

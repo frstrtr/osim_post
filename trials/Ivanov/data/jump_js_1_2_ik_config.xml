@@ -334,7 +334,7 @@
 		<!--The name of the storage (.sto or .mot) file containing coordinate observations.Coordinate values from this file are included if there is a corresponding coordinate task. -->
 		<coordinate_file>Unassigned</coordinate_file>
 		<!--Time range over which the inverse kinematics problem is solved.-->
-		<time_range> 0 0.9075</time_range>
+		<time_range> 0 0.7100</time_range>
 		<!--Flag (true or false) indicating whether or not to report marker errors from the inverse kinematics solution.-->
 		<report_errors>true</report_errors>
 		<!--Name of the motion file (.mot) to which the results should be written.-->

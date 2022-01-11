@@ -11,18 +11,15 @@ addHandler(writeToFile, file=paste("output-",System$getHostname(),'-',Sys.Date()
 
 path = '.'
 
-athlete <- "jump_jo_3"
-experiment <- "jump_jo_3"
+athlete <- "jump_js_1"
+experiment <- "jump_js_1"
 save_to_file = TRUE
 
-# model_xml_file = paste(path,'/data/',athlete,'/gait_with_arms_scaled.osim',sep='')
 model_xml_file = paste('jump_js_1_gait_with_arms_scaled.osim',sep='')
 
 #------------------------------------------------------------------#
 logdebug('loading antropometry...');
-# antropometry = scan(file = paste(path,'/data/antrop.txt',sep=''), what = character())
 antropometry = scan(file = paste('antrop.txt',sep=''), what = character())
-
 sex <- antropometry[2]
 weight <- as.numeric(antropometry[4])
 height <- as.numeric(antropometry[6])
@@ -54,8 +51,7 @@ center_of_mass_Z_delta = center_of_mass_Z_delta[2:(frames-1)]
 
 if (save_to_file)
 {
-	# png_file = paste(path,'/data/',athlete,'/', experiment, '_plot_1_center_of_mass_delta_raw.png', sep = "")
-	png_file = paste('_plot_1_center_of_mass_delta_raw.png', sep = "")
+	png_file = paste('jump_js_1_plot_1_center_of_mass_delta_raw.png', sep = "")
 	png(png_file, width=1600, height=1000, units="px", res=106)
 }
 plot(center_of_mass_Y_delta, ann=FALSE, type="l", col="red", lwd=2)
@@ -192,21 +188,13 @@ normalize_force_file <- function(data, out_name)
 	#WriteXLS(as.data.frame(target_array), ExcelFileName = out_name, col.names = columns, row.names=FALSE, AdjWidth=TRUE, BoldHeaderRow=TRUE, FreezeRow=1)
 }
 
-# normalize_file(pos_source, paste(path,'/data/',athlete,'/',experiment,'_normalized_1_pos.csv',sep=''))
-# normalize_file(vel_source, paste(path,'/data/',athlete,'/',experiment,'_normalized_2_vel.csv',sep=''))
-# normalize_file(acc_source, paste(path,'/data/',athlete,'/',experiment,'_normalized_3_acc.csv',sep=''))
-# normalize_file(body_forces_source, paste(path,'/data/',athlete,'/',experiment,'_normalized_4_body_forces.csv',sep=''))
-# normalize_file(inverse_dynamics_source, paste(path,'/data/',athlete,'/',experiment,'_normalized_5_inverse_dynamics.csv',sep=''))
-# normalize_file(mot_source, paste(path,'/data/',athlete,'/',experiment,'_normalized_6_mot.csv',sep=''))
-# normalize_force_file(ext_forces_source, paste(path,'/data/',athlete,'/',experiment,'_normalized_7_ext_forces.csv',sep=''))
-
-normalize_file(pos_source, paste('_normalized_1_pos.csv',sep=''))
-normalize_file(vel_source, paste('_normalized_2_vel.csv',sep=''))
-normalize_file(acc_source, paste('_normalized_3_acc.csv',sep=''))
-normalize_file(body_forces_source, paste('_normalized_4_body_forces.csv',sep=''))
-normalize_file(inverse_dynamics_source, paste('_normalized_5_inverse_dynamics.csv',sep=''))
-normalize_file(mot_source, paste('_normalized_6_mot.csv',sep=''))
-normalize_force_file(ext_forces_source, paste('_normalized_7_ext_forces.csv',sep=''))
+normalize_file(pos_source, paste('jump_js_1_normalized_1_pos.csv',sep=''))
+normalize_file(vel_source, paste('jump_js_1_normalized_2_vel.csv',sep=''))
+normalize_file(acc_source, paste('jump_js_1_normalized_3_acc.csv',sep=''))
+normalize_file(body_forces_source, paste('jump_js_1_normalized_4_body_forces.csv',sep=''))
+normalize_file(inverse_dynamics_source, paste('jump_js_1_normalized_5_inverse_dynamics.csv',sep=''))
+normalize_file(mot_source, paste('jump_js_1_normalized_6_mot.csv',sep=''))
+normalize_force_file(ext_forces_source, paste('jump_js_1_normalized_7_ext_forces.csv',sep=''))
 
 #TODO - ext forces normalize as well, but needs to be filtered differently as it has different timescale
 logdebug('normalization done.')
@@ -226,21 +214,13 @@ get_segment_mass <- function(segment)
 
 
 logdebug('loading normalized files')
-# pos_smoothed <- read.table(paste(path,'/data/',athlete,'/',experiment,'_normalized_1_pos.csv',sep=''), header = TRUE, sep=";", dec=',')
-# vel_smoothed <- read.table(paste(path,'/data/',athlete,'/',experiment,'_normalized_2_vel.csv',sep=''), header = TRUE, sep=";", dec=',')
-# acc_smoothed <- read.table(paste(path,'/data/',athlete,'/',experiment,'_normalized_3_acc.csv',sep=''), header = TRUE, sep=";", dec=',')
-# body_forces_smoothed <- read.table(paste(path,'/data/',athlete,'/',experiment,'_normalized_4_body_forces.csv',sep=''), header = TRUE, sep=";", dec=',')
-# inverse_dynamics_smoothed <- read.table(paste(path,'/data/',athlete,'/',experiment,'_normalized_5_inverse_dynamics.csv',sep=''), header = TRUE, sep=";", dec=',')
-# mot_smoothed <- read.table(paste(path,'/data/',athlete,'/',experiment,'_normalized_6_mot.csv',sep=''), header = TRUE, sep=";", dec=',')
-# ext_forces_smoothed <- read.table(paste(path,'/data/',athlete,'/',experiment,'_normalized_7_ext_forces.csv',sep=''), header = TRUE, sep=";", dec=',')
-
-pos_smoothed <- read.table(paste('_normalized_1_pos.csv',sep=''), header = TRUE, sep=";", dec=',')
-vel_smoothed <- read.table(paste('_normalized_2_vel.csv',sep=''), header = TRUE, sep=";", dec=',')
-acc_smoothed <- read.table(paste('_normalized_3_acc.csv',sep=''), header = TRUE, sep=";", dec=',')
-body_forces_smoothed <- read.table(paste('_normalized_4_body_forces.csv',sep=''), header = TRUE, sep=";", dec=',')
-inverse_dynamics_smoothed <- read.table(paste('_normalized_5_inverse_dynamics.csv',sep=''), header = TRUE, sep=";", dec=',')
-mot_smoothed <- read.table(paste('_normalized_6_mot.csv',sep=''), header = TRUE, sep=";", dec=',')
-ext_forces_smoothed <- read.table(paste('_normalized_7_ext_forces.csv',sep=''), header = TRUE, sep=";", dec=',')
+pos_smoothed <- read.table(paste('jump_js_1_normalized_1_pos.csv',sep=''), header = TRUE, sep=";", dec=',')
+vel_smoothed <- read.table(paste('jump_js_1_normalized_2_vel.csv',sep=''), header = TRUE, sep=";", dec=',')
+acc_smoothed <- read.table(paste('jump_js_1_normalized_3_acc.csv',sep=''), header = TRUE, sep=";", dec=',')
+body_forces_smoothed <- read.table(paste('jump_js_1_normalized_4_body_forces.csv',sep=''), header = TRUE, sep=";", dec=',')
+inverse_dynamics_smoothed <- read.table(paste('jump_js_1_normalized_5_inverse_dynamics.csv',sep=''), header = TRUE, sep=";", dec=',')
+mot_smoothed <- read.table(paste('jump_js_1_normalized_6_mot.csv',sep=''), header = TRUE, sep=";", dec=',')
+ext_forces_smoothed <- read.table(paste('jump_js_1_normalized_7_ext_forces.csv',sep=''), header = TRUE, sep=";", dec=',')
 
 # 1 frame - beginning of ammortization phase, 400 - end of push-off
 phase_split = round((lowest_frame - movement_frame) / (eject_frame - movement_frame) * 400, digits=0)
@@ -326,7 +306,7 @@ delta_power_ott = Power_sum_max - Power_sum_min
 
 # TODO save to file
 
-power_and_moments_file = paste(path,'/data/',athlete,'/',experiment,'_normalized_8_RCALC_power_and_moments.csv',sep='')
+power_and_moments_file = paste('jump_js_1_normalized_8_RCALC_power_and_moments.csv',sep='')
 columns = c(
 'Ekin1', 
 'Ekin_foot_right', 
@@ -368,7 +348,7 @@ write.table(target_array, file = power_and_moments_file, append = FALSE, col.nam
 
 
 
-summary_file = paste(path,'/data/',athlete,'/',experiment,'_normalized_9_RCALC_summary.csv',sep='')
+summary_file = paste('jump_js_1_normalized_9_RCALC_summary.csv',sep='')
 target_array = matrix(nrow=2,ncol=8)
 target_array[1,1] = 'Энергия_фаза амортизации'
 target_array[1,2] = 'Момент_фаза амортизации'

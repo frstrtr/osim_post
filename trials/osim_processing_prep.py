@@ -1,5 +1,4 @@
 import csv
-import array
 import shutil
 import sys
 import os
@@ -124,11 +123,12 @@ for value in jumps.values():
 		NO_OF_MARKERS = 0
 		FREQUENCY = 0
 		MARKER_NAMES = ''
-		EXTRA_COLUMNS_TO_BE_REMOVED = 0
+		extra_columns_to_be_removed = 0
 
 		for row in reader:
 			if i <= 10:
-				print(row)
+				# print(row)
+				print('.',end='')
 			if i == 1:
 				NO_OF_FRAMES = row[1]
 			if i == 2:
@@ -140,14 +140,14 @@ for value in jumps.values():
 			
 			if i == 10:
 				MARKER_NAMES = row
-
+				print(' SOURCE FILE: ',data_source)
 				print("writing header to output")
 				
 				writer.writerow(['PathFileType', 4,	'(X/Y/Z)', data_target])
 				writer.writerow(['DataRate','CameraRate','NumFrames','NumMarkers','Units','OrigDataRate','OrigDataStartFrame','OrigNumFrames'])
 				writer.writerow([FREQUENCY, FREQUENCY, NO_OF_FRAMES, NO_OF_MARKERS, "mm", FREQUENCY, "1", NO_OF_FRAMES])
 				
-				print(MARKER_NAMES)
+				# print(MARKER_NAMES)
 
 				MARKERS_LINE_1 = ['Frame#', 'Time']
 				MARKERS_LINE_2 = ['', '']
@@ -165,20 +165,20 @@ for value in jumps.values():
 
 			if i == 11:
 				if row[1] == "Frame":
-					EXTRA_COLUMNS_TO_BE_REMOVED = EXTRA_COLUMNS_TO_BE_REMOVED + 1
+					extra_columns_to_be_removed = extra_columns_to_be_removed + 1
 				if row[1] == "Time":
-					EXTRA_COLUMNS_TO_BE_REMOVED = EXTRA_COLUMNS_TO_BE_REMOVED + 1
+					extra_columns_to_be_removed = extra_columns_to_be_removed + 1
 				if row[2] == "Frame":
-					EXTRA_COLUMNS_TO_BE_REMOVED = EXTRA_COLUMNS_TO_BE_REMOVED + 1
+					extra_columns_to_be_removed = extra_columns_to_be_removed + 1
 				if row[2] == "Time":
-					EXTRA_COLUMNS_TO_BE_REMOVED = EXTRA_COLUMNS_TO_BE_REMOVED + 1
+					extra_columns_to_be_removed = extra_columns_to_be_removed + 1
 				if row[0] == "Frame":
-					EXTRA_COLUMNS_TO_BE_REMOVED = EXTRA_COLUMNS_TO_BE_REMOVED + 1
+					extra_columns_to_be_removed = extra_columns_to_be_removed + 1
 				if row[0] == "Time":
-					EXTRA_COLUMNS_TO_BE_REMOVED = EXTRA_COLUMNS_TO_BE_REMOVED + 1
+					extra_columns_to_be_removed = extra_columns_to_be_removed + 1
 					
-				print("EXTRA_COLUMNS_TO_BE_REMOVED:")
-				print(EXTRA_COLUMNS_TO_BE_REMOVED)
+				print("EXTRA_COLUMNS_TO_BE_REMOVED:", extra_columns_to_be_removed)
+				# print(EXTRA_COLUMNS_TO_BE_REMOVED)
 
 			if i >= 12:
 				STOP_TIME = "{0:.4f}".format(1.00/float(FREQUENCY)*(i-12.00))
@@ -187,9 +187,9 @@ for value in jumps.values():
 					#VALUES.append("{0:.3f}".format(- float(row[(x-1)*3 + EXTRA_COLUMNS_TO_BE_REMOVED]) + 370.0)) # X_opensim = -X_QTM
 					#VALUES.append("{0:.3f}".format(float(row[(x-1)*3+2 + EXTRA_COLUMNS_TO_BE_REMOVED]) - 398.0)) # Y_opensim = Z_QTM
 					#VALUES.append("{0:.3f}".format(float(row[(x-1)*3+1 + EXTRA_COLUMNS_TO_BE_REMOVED]) - 972.0)) # Z_opensim = Y_QTM
-					VALUES.append("{0:.3f}".format(- float(row[(x-1)*3 + EXTRA_COLUMNS_TO_BE_REMOVED]))) # X_opensim = -X_QTM
-					VALUES.append("{0:.3f}".format(float(row[(x-1)*3+2 + EXTRA_COLUMNS_TO_BE_REMOVED]))) # Y_opensim = Z_QTM
-					VALUES.append("{0:.3f}".format(float(row[(x-1)*3+1 + EXTRA_COLUMNS_TO_BE_REMOVED]))) # Z_opensim = Y_QTM
+					VALUES.append("{0:.3f}".format(- float(row[(x-1)*3 + extra_columns_to_be_removed]))) # X_opensim = -X_QTM
+					VALUES.append("{0:.3f}".format(float(row[(x-1)*3+2 + extra_columns_to_be_removed]))) # Y_opensim = Z_QTM
+					VALUES.append("{0:.3f}".format(float(row[(x-1)*3+1 + extra_columns_to_be_removed]))) # Z_opensim = Y_QTM
 				writer.writerow(VALUES)	
 			i = i+1
 
@@ -204,7 +204,7 @@ for value in jumps.values():
 		i = 1
 		FORCE_NO_OF_SAMPLES = 0
 		FORCE_FREQUENCY = 0
-		FORCE_EXTRA_COLUMNS_TO_BE_REMOVED = 0
+		force_extra_columns_to_be_removed = 0
 		
 		FORCE_PLATE_CORNER_POSX_POSY_X = 0
 		FORCE_PLATE_CORNER_POSX_POSY_Y = 0
@@ -228,7 +228,8 @@ for value in jumps.values():
 				row_right = next(force_right_reader)
 				
 				if i <= 10:
-					print(row)
+					# print(row)
+					print('.',end='')
 				if i == 1:
 					FORCE_NO_OF_SAMPLES = row[1]
 				if i == 2:
@@ -240,8 +241,10 @@ for value in jumps.values():
 					FORCE_PLATE_CORNER_POSX_POSY_Y = row[1]
 					RIGHT_FORCE_PLATE_CORNER_POSX_POSY_Y = row_right[1]
 				if i == 24:
+					print (' DESTINATION FILE: ',data_target)
 					print("writing header to force output")
-					print(row)
+					# print(row)
+					# print ('.',end='')
 					force_writer.writerow(['Coordinates'])
 					force_writer.writerow(['version=1'])
 					force_writer.writerow(['nRows='+str(int(FORCE_NO_OF_SAMPLES))])
@@ -258,58 +261,58 @@ for value in jumps.values():
 					force_writer.writerow(['time','1_Force_X','1_Force_Y','1_Force_Z','1_Moment_X','1_Moment_Y','1_Moment_Z','1_COP_X','1_COP_Y','1_COP_Z','2_Force_X','2_Force_Y','2_Force_Z','2_Moment_X','2_Moment_Y','2_Moment_Z','2_COP_X','2_COP_Y','2_COP_Z'])
 					
 					if row[0] == "SAMPLE":
-						FORCE_EXTRA_COLUMNS_TO_BE_REMOVED = FORCE_EXTRA_COLUMNS_TO_BE_REMOVED + 1
+						force_extra_columns_to_be_removed = force_extra_columns_to_be_removed + 1
 					if row[1] == "SAMPLE":
-						FORCE_EXTRA_COLUMNS_TO_BE_REMOVED = FORCE_EXTRA_COLUMNS_TO_BE_REMOVED + 1
+						force_extra_columns_to_be_removed = force_extra_columns_to_be_removed + 1
 					if row[0] == "TIME":
-						FORCE_EXTRA_COLUMNS_TO_BE_REMOVED = FORCE_EXTRA_COLUMNS_TO_BE_REMOVED + 1
+						force_extra_columns_to_be_removed = force_extra_columns_to_be_removed + 1
 					if row[1] == "TIME":
-						FORCE_EXTRA_COLUMNS_TO_BE_REMOVED = FORCE_EXTRA_COLUMNS_TO_BE_REMOVED + 1
+						force_extra_columns_to_be_removed = force_extra_columns_to_be_removed + 1
 					
-					print("FORCE_EXTRA_COLUMNS_TO_BE_REMOVED:")
-					print(FORCE_EXTRA_COLUMNS_TO_BE_REMOVED)
+					print("FORCE_EXTRA_COLUMNS_TO_BE_REMOVED:", force_extra_columns_to_be_removed)
+					# print(force_extra_columns_to_be_removed)
 					
 				if i >= 28:
 					VALUES = ["{0:.4f}".format(1.00/float(FORCE_FREQUENCY)*(i-25.00))]
 					
 					#calibrating ground forces
-					row[(1-1)*3+FORCE_EXTRA_COLUMNS_TO_BE_REMOVED] = float(row[(1-1)*3+FORCE_EXTRA_COLUMNS_TO_BE_REMOVED]) - PLATFORM_CALIB_LEFT_X
-					row[(1-1)*3+2+FORCE_EXTRA_COLUMNS_TO_BE_REMOVED] = float(row[(1-1)*3+2+FORCE_EXTRA_COLUMNS_TO_BE_REMOVED]) + PLATFORM_CALIB_LEFT_Y
-					row[(1-1)*3+1+FORCE_EXTRA_COLUMNS_TO_BE_REMOVED] = float(row[(1-1)*3+1+FORCE_EXTRA_COLUMNS_TO_BE_REMOVED]) + PLATFORM_CALIB_LEFT_Z
-					row_right[(1-1)*3+FORCE_EXTRA_COLUMNS_TO_BE_REMOVED] = float(row_right[(1-1)*3+FORCE_EXTRA_COLUMNS_TO_BE_REMOVED]) - PLATFORM_CALIB_RIGHT_X
-					row_right[(1-1)*3+2+FORCE_EXTRA_COLUMNS_TO_BE_REMOVED] = float(row_right[(1-1)*3+2+FORCE_EXTRA_COLUMNS_TO_BE_REMOVED]) + PLATFORM_CALIB_RIGHT_Y
-					row_right[(1-1)*3+1+FORCE_EXTRA_COLUMNS_TO_BE_REMOVED] = float(row_right[(1-1)*3+1+FORCE_EXTRA_COLUMNS_TO_BE_REMOVED]) + PLATFORM_CALIB_RIGHT_Z
+					row[(1-1)*3+force_extra_columns_to_be_removed] = float(row[(1-1)*3+force_extra_columns_to_be_removed]) - PLATFORM_CALIB_LEFT_X
+					row[(1-1)*3+2+force_extra_columns_to_be_removed] = float(row[(1-1)*3+2+force_extra_columns_to_be_removed]) + PLATFORM_CALIB_LEFT_Y
+					row[(1-1)*3+1+force_extra_columns_to_be_removed] = float(row[(1-1)*3+1+force_extra_columns_to_be_removed]) + PLATFORM_CALIB_LEFT_Z
+					row_right[(1-1)*3+force_extra_columns_to_be_removed] = float(row_right[(1-1)*3+force_extra_columns_to_be_removed]) - PLATFORM_CALIB_RIGHT_X
+					row_right[(1-1)*3+2+force_extra_columns_to_be_removed] = float(row_right[(1-1)*3+2+force_extra_columns_to_be_removed]) + PLATFORM_CALIB_RIGHT_Y
+					row_right[(1-1)*3+1+force_extra_columns_to_be_removed] = float(row_right[(1-1)*3+1+force_extra_columns_to_be_removed]) + PLATFORM_CALIB_RIGHT_Z
 					
 					#ground_force_vx ground_force_vy ground_force_vz	
-					VALUES.append("{0:.3f}".format(- float(row[(1-1)*3+FORCE_EXTRA_COLUMNS_TO_BE_REMOVED])))
-					VALUES.append("{0:.3f}".format(float(row[(1-1)*3+2+FORCE_EXTRA_COLUMNS_TO_BE_REMOVED])))
-					VALUES.append("{0:.3f}".format(float(row[(1-1)*3+1+FORCE_EXTRA_COLUMNS_TO_BE_REMOVED])))
+					VALUES.append("{0:.3f}".format(- float(row[(1-1)*3+force_extra_columns_to_be_removed])))
+					VALUES.append("{0:.3f}".format(float(row[(1-1)*3+2+force_extra_columns_to_be_removed])))
+					VALUES.append("{0:.3f}".format(float(row[(1-1)*3+1+force_extra_columns_to_be_removed])))
 					
 					#ground_force_px ground_force_py ground_force_pz
-					VALUES.append("{0:.3f}".format(-(float(row[6+FORCE_EXTRA_COLUMNS_TO_BE_REMOVED]) + float(FORCE_PLATE_CORNER_POSX_POSY_X) - 250)/1000)) # X_opensim = -X_QTM
-					VALUES.append("{0:.3f}".format(float(row[8+FORCE_EXTRA_COLUMNS_TO_BE_REMOVED])/1000)) # Y_opensim = Z_QTM
-					VALUES.append("{0:.3f}".format((float(row[7+FORCE_EXTRA_COLUMNS_TO_BE_REMOVED]) + float(FORCE_PLATE_CORNER_POSX_POSY_Y) - 250)/1000)) # Z_opensim = Y_QTM
+					VALUES.append("{0:.3f}".format(-(float(row[6+force_extra_columns_to_be_removed]) + float(FORCE_PLATE_CORNER_POSX_POSY_X) - 250)/1000)) # X_opensim = -X_QTM
+					VALUES.append("{0:.3f}".format(float(row[8+force_extra_columns_to_be_removed])/1000)) # Y_opensim = Z_QTM
+					VALUES.append("{0:.3f}".format((float(row[7+force_extra_columns_to_be_removed]) + float(FORCE_PLATE_CORNER_POSX_POSY_Y) - 250)/1000)) # Z_opensim = Y_QTM
 					
 					#now the other file 1_ground_force_vx	1_ground_force_vy	1_ground_force_vz	1_ground_force_px	1_ground_force_py	1_ground_force_pz
-					VALUES.append("{0:.3f}".format(- float(row_right[(1-1)*3+FORCE_EXTRA_COLUMNS_TO_BE_REMOVED])))
-					VALUES.append("{0:.3f}".format(float(row_right[(1-1)*3+2+FORCE_EXTRA_COLUMNS_TO_BE_REMOVED])))
-					VALUES.append("{0:.3f}".format(float(row_right[(1-1)*3+1+FORCE_EXTRA_COLUMNS_TO_BE_REMOVED])))
+					VALUES.append("{0:.3f}".format(- float(row_right[(1-1)*3+force_extra_columns_to_be_removed])))
+					VALUES.append("{0:.3f}".format(float(row_right[(1-1)*3+2+force_extra_columns_to_be_removed])))
+					VALUES.append("{0:.3f}".format(float(row_right[(1-1)*3+1+force_extra_columns_to_be_removed])))
 					
 					#1_ground_force_px	1_ground_force_py	1_ground_force_pz
-					VALUES.append("{0:.3f}".format(-(float(row_right[6+FORCE_EXTRA_COLUMNS_TO_BE_REMOVED]) + float(RIGHT_FORCE_PLATE_CORNER_POSX_POSY_X) - 250)/1000)) # X_opensim = -X_QTM
-					VALUES.append("{0:.3f}".format(float(row_right[8+FORCE_EXTRA_COLUMNS_TO_BE_REMOVED])/1000)) # Y_opensim = Z_QTM
-					VALUES.append("{0:.3f}".format((float(row_right[7+FORCE_EXTRA_COLUMNS_TO_BE_REMOVED]) + float(RIGHT_FORCE_PLATE_CORNER_POSX_POSY_Y) - 250)/1000)) # Z_opensim = Y_QTM
+					VALUES.append("{0:.3f}".format(-(float(row_right[6+force_extra_columns_to_be_removed]) + float(RIGHT_FORCE_PLATE_CORNER_POSX_POSY_X) - 250)/1000)) # X_opensim = -X_QTM
+					VALUES.append("{0:.3f}".format(float(row_right[8+force_extra_columns_to_be_removed])/1000)) # Y_opensim = Z_QTM
+					VALUES.append("{0:.3f}".format((float(row_right[7+force_extra_columns_to_be_removed]) + float(RIGHT_FORCE_PLATE_CORNER_POSX_POSY_Y) - 250)/1000)) # Z_opensim = Y_QTM
 					
 					#now the moments ground_torque_x	ground_torque_y	ground_torque_z	1_ground_torque_x	1_ground_torque_y	1_ground_torque_z
 					torque_X = 0
-					torque_Y = float(row[(2-1)*3+2+FORCE_EXTRA_COLUMNS_TO_BE_REMOVED]) - ( - float(row[(2-1)*3+1+FORCE_EXTRA_COLUMNS_TO_BE_REMOVED]) / float(row[(1-1)*3+2+FORCE_EXTRA_COLUMNS_TO_BE_REMOVED]) * float(row[(1-1)*3+1+FORCE_EXTRA_COLUMNS_TO_BE_REMOVED]) - float(row[(2-1)*3+FORCE_EXTRA_COLUMNS_TO_BE_REMOVED]) / float(row[(1-1)*3+2+FORCE_EXTRA_COLUMNS_TO_BE_REMOVED]) * float(row[(1-1)*3+FORCE_EXTRA_COLUMNS_TO_BE_REMOVED]) )
+					torque_Y = float(row[(2-1)*3+2+force_extra_columns_to_be_removed]) - ( - float(row[(2-1)*3+1+force_extra_columns_to_be_removed]) / float(row[(1-1)*3+2+force_extra_columns_to_be_removed]) * float(row[(1-1)*3+1+force_extra_columns_to_be_removed]) - float(row[(2-1)*3+force_extra_columns_to_be_removed]) / float(row[(1-1)*3+2+force_extra_columns_to_be_removed]) * float(row[(1-1)*3+force_extra_columns_to_be_removed]) )
 					torque_Z = 0
 					VALUES.append("{0:.5f}".format(float(torque_X)))
 					VALUES.append("{0:.5f}".format(float(torque_Y)))
 					VALUES.append("{0:.5f}".format(float(torque_Z)))
 					
 					torque_X = 0
-					torque_Y = float(row_right[(2-1)*3+2+FORCE_EXTRA_COLUMNS_TO_BE_REMOVED]) - ( - float(row_right[(2-1)*3+1+FORCE_EXTRA_COLUMNS_TO_BE_REMOVED]) / float(row_right[(1-1)*3+2+FORCE_EXTRA_COLUMNS_TO_BE_REMOVED]) * float(row_right[(1-1)*3+1+FORCE_EXTRA_COLUMNS_TO_BE_REMOVED]) - float(row_right[(2-1)*3+FORCE_EXTRA_COLUMNS_TO_BE_REMOVED]) / float(row_right[(1-1)*3+2+FORCE_EXTRA_COLUMNS_TO_BE_REMOVED]) * float(row_right[(1-1)*3+FORCE_EXTRA_COLUMNS_TO_BE_REMOVED]) )
+					torque_Y = float(row_right[(2-1)*3+2+force_extra_columns_to_be_removed]) - ( - float(row_right[(2-1)*3+1+force_extra_columns_to_be_removed]) / float(row_right[(1-1)*3+2+force_extra_columns_to_be_removed]) * float(row_right[(1-1)*3+1+force_extra_columns_to_be_removed]) - float(row_right[(2-1)*3+force_extra_columns_to_be_removed]) / float(row_right[(1-1)*3+2+force_extra_columns_to_be_removed]) * float(row_right[(1-1)*3+force_extra_columns_to_be_removed]) )
 					torque_Z = 0
 					VALUES.append("{0:.5f}".format(float(torque_X)))
 					VALUES.append("{0:.5f}".format(float(torque_Y)))
